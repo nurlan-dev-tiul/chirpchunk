@@ -35,7 +35,7 @@ export const PostChirp = ({userId}: PostTheardProps) => {
       text: values.chirp,
       author: userId,
       path: pathname,
-      communityId: null
+      communityId: organization ? organization.id : null,
     })
 
     router.push("/")
@@ -63,7 +63,7 @@ export const PostChirp = ({userId}: PostTheardProps) => {
         )}
       />
 
-      <Button type='submit' className='bg-primary-500'>
+      <Button type='submit' className='bg-[#5c5c7b]'>
         Post Chirp
       </Button>
     </form>

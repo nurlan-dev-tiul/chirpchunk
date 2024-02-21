@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache"
 import User from "../models/user.model"
 import Chirp from "../models/сhirp.model"
 import { connectToDB } from "../mongoose"
+import Community from "../models/community.model";
 
 interface Params {
   text: string
@@ -19,10 +20,16 @@ export const createChirp = async ({
 
   try {
     connectToDB()
+
+    const communityIdObject = await Community.findOne(
+      { id: communityId },
+      { _id: 1 }
+    );
+
     const createdChirp = await Chirp.create({
       text,
       author,
-      community: null,
+      community: communityIdObject,
 
     })
 
@@ -32,6 +39,12 @@ export const createChirp = async ({
       $push: { chirps: createdChirp._id }
     })
 
+    if (communityIdObject) {
+      // Update Community model
+      await Community.findByIdAndUpdate(communityIdObject, {
+        $push: { chirps: createdChirp._id },
+      });
+    }
     revalidatePath(path)
 
   } catch (error) {
@@ -54,6 +67,10 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
     .populate({
       path: "author", // поле author
       model: User, // модель User
+    })
+    .populate({
+      path: "community",
+      model: Community,
     })
     .populate({
       path: "children", // путь к полю children
@@ -90,11 +107,11 @@ export const fetchChirpbyId = async (id: string) => {
       model: User,
       select: "_id id name image",
     }) 
-    // .populate({
-    //   path: "community",
-    //   model: Community,
-    //   select: "_id id name image",
-    // }) 
+    .populate({
+      path: "community",
+      model: Community,
+      select: "_id id name image",
+    }) 
     .populate({
       path: "children",
       populate: [

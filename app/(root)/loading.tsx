@@ -1,6 +1,8 @@
+import { Spinner } from "@/components/shared/ui/spinner"
+
 const Loading = () => {
   return (
-    <div className="text-white">Loading</div>
+    <Spinner />
   )
 }
 

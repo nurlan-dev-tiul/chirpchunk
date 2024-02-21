@@ -27,7 +27,7 @@ export const LeftSidebar = () => {
             <Link 
               href={link.route} 
               key={link.label}
-              className={`leftsidebar_link ${isActive && 'bg-slate-900'}`}
+              className={`leftsidebar_link ${isActive && 'bg-[#5c5c7b]'}`}
             >
               <Image 
                 src={link.imgURL}

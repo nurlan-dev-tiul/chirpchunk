@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
-// import { fetchCommunityPosts } from "@/lib/actions/community.action";
 import { fetchUserPosts } from "@/lib/actions/user.action";
 
 import { ChirpCard } from "@/components/widgets/chirp-card";
 import { Result } from "./type";
+import { fetchCommunityPosts } from "@/lib/actions/community.action";
 
 interface Props {
   currentUserId: string;
@@ -16,18 +16,18 @@ async function ChirpTab({ currentUserId, accountId, accountType }: Props) {
   let result: Result = await fetchUserPosts(accountId);
 
   if (accountType === "Community") {
-    // result = await fetchCommunityPosts(accountId);
+    result = await fetchCommunityPosts(accountId);
   } else {
     
   }
 
-  // if (!result) {
-  //   redirect("/");
-  // }
+  if (!result) {
+    redirect("/");
+  }
 
   return (
     <section className='mt-9 flex flex-col gap-2'>
-      {result.chirps.map((chirp) => (
+      {result?.chirps.map((chirp) => (
         <ChirpCard
           key={chirp._id}
           id={chirp._id}

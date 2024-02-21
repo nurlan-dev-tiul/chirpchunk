@@ -53,10 +53,10 @@ export const fetchUser = async (userId: string) => {
     connectToDB()
     return await User
       .findOne({id: userId})
-      // .populate({
-      //   path: "communities",
-      //   model: Community
-      // })
+      .populate({
+        path: "communities",
+        model: Community
+      })
   } catch (error) {
     throw new Error("Failed to fetch user")
   }
