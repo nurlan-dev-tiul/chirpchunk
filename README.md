@@ -13,3 +13,4 @@ Demo [https://chirp-phi-lemon.vercel.app/](https://chirp-phi-lemon.vercel.app/)
 - Mongoose 
 - React-hook-form и ZOD
 
+![Скриншот](https://github.com/nurlan-dev-tiul/chirpchunk/blob/main/srcreenshot.png)
